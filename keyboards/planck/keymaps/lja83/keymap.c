@@ -25,7 +25,7 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _PLOVER,
-  _DIABLO,
+  _GAMES,
   _ADJUST,
   _NAV,
 };
@@ -36,7 +36,9 @@ enum planck_keycodes {
   DVORAK,
   PLOVER,
   BACKLIT,
-  EXT_PLV
+  EXT_PLV,
+  GAMES,
+  EXT_GAMES
 };
 
 #define LOWER MO(_LOWER)
@@ -154,11 +156,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     EXT_PLV, XXXXXXX, XXXXXXX, KC_C,    KC_V,    XXXXXXX, XXXXXXX, KC_N,    KC_M,    XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
-[_DIABLO] = LAYOUT_planck_grid(
-    XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_T,    XXXXXXX, XXXXXXX, KC_I,    XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_ESC,  KC_Q,    KC_S,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_SPC,  KC_SPC,  _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+[_GAMES] = LAYOUT_planck_grid(
+    _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+    _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+    _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+    EXT_GAMES, _______, _______, _______, _______, KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______
 ),
 
 /* Adjust (Lower + Raise)
@@ -174,10 +176,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `----------------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    _______,     RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, KC_DEL ,
-    _______,     _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK,  DVORAK,  PLOVER,  _______,
-    _______,     MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, CK_TOGG, _______,
-    TG(_DIABLO), _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+    _______, RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, KC_DEL ,
+    _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK,  DVORAK,  PLOVER,  _______,
+    _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, CK_TOGG, _______,
+    GAMES,   _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
 [_NAV] = LAYOUT_planck_grid(
@@ -261,6 +263,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           PLAY_SONG(plover_gb_song);
         #endif
         layer_off(_PLOVER);
+      }
+      return false;
+      break;
+    case GAMES:
+      if (record->event.pressed) {
+        layer_on(_GAMES);
+      }
+      return false;
+      break;
+    case EXT_GAMES:
+      if (record->event.pressed) {
+        layer_off(_GAMES);
       }
       return false;
       break;
