@@ -42,3 +42,5 @@
 //     #define AUDIO_CLICKY_FREQ_FACTOR 1.18921f
 //     #define AUDIO_CLICKY_FREQ_RANDOMNESS 17.0f
 // #endif
+
+#define RGBLIGHT_ANIMATIONS
