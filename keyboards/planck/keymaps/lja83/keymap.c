@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,          KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,     KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     LCTL_T(KC_ESC),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,             KC_H,     KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT,         KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,     KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_ENT),
-    BACKLIT,         KC_LCTL, KC_LGUI, KC_LALT, LOWER,   LT(_NAV, KC_SPC), KC_SPC,   RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    KC_MPLY,         KC_LCTL, KC_LGUI, KC_LALT, LOWER,   LT(_NAV, KC_SPC), KC_SPC,   RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 /* Colemak
@@ -289,34 +289,10 @@ uint8_t muse_offset = 70;
 uint16_t muse_tempo = 50;
 
 void encoder_update(bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
+  if (clockwise) {
+      tap_code_delay(KC_VOLU, 10);
   } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
-    }
+      tap_code_delay(KC_VOLD, 10);
   }
 }
 
